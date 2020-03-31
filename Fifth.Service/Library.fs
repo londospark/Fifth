@@ -6,12 +6,6 @@ open Mono.Cecil
 
 open System
 
-let instructionFor = function
-    | Add -> Some OpCodes.Add
-    | Number _num -> Some OpCodes.Ldc_I4
-    | Output -> Some OpCodes.Call
-    | _ -> None
-
 let netStandardAssembly = 
     let userDir = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
     let netStandardPath =
@@ -28,7 +22,7 @@ let netStandardAssembly =
     AssemblyDefinition.ReadAssembly netStandardPath
 
 
-let compile (ast: Ast.Token list) =
+let compileFile (ast: Ast.Token list) =
 
     let assemblyNameDefinition = AssemblyNameDefinition("TestAssembly", Version(0, 0, 1))
     let moduleKind = ModuleKind.Dll
@@ -54,8 +48,18 @@ let compile (ast: Ast.Token list) =
     imr.Parameters.Add(ParameterDefinition(lookupNetStandardType "System.Int32"))
     let methodRef = m.ImportReference imr
 
-    il.Append(il.Create(OpCodes.Ldc_I4, 42))
-    il.Append(il.Create(OpCodes.Call, methodRef))
+    let opCodeFor = function
+        | Add -> il.Create(OpCodes.Add)
+        | Number num -> il.Create(OpCodes.Ldc_I4, num)
+        | Output ->
+            let imr = MethodReference("WriteLine", (lookupNetStandardType "System.Void"), (lookupNetStandardType "System.Console"))
+            imr.Parameters.Add(ParameterDefinition(lookupNetStandardType "System.Int32"))
+            let methodRef = m.ImportReference imr
+            il.Create(OpCodes.Call, methodRef)
+        | e -> failwithf "Token %A not yet supported" e
+
+    ast |> List.iter(fun t -> il.Append(opCodeFor t))
+
     il.Append(il.Create(OpCodes.Ret))
 
     method.Body <- body
@@ -66,3 +70,7 @@ let compile (ast: Ast.Token list) =
     assemblyDefinition.EntryPoint <- method
     assemblyDefinition.Write "C:/Users/ridec/Desktop/TestAssembly.dll"
     ()
+
+let compile (source: string) =
+    let ast = Fifth.parse source
+    compileFile ast
