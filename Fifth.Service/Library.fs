@@ -41,7 +41,7 @@ let compile (ast: Ast.Token list) =
         netStandardAssembly.MainModule.Types
         |> Seq.find (fun t -> t.FullName = name)
         |> m.ImportReference
-        
+
     let ourType = TypeDefinition("Program", "Bar", TypeAttributes.Public ||| TypeAttributes.Abstract ||| TypeAttributes.Sealed ||| TypeAttributes.BeforeFieldInit, (lookupNetStandardType "System.Object"))
     m.Types.Add(ourType)
     
@@ -49,6 +49,13 @@ let compile (ast: Ast.Token list) =
     let body = MethodBody(method)
 
     let il = body.GetILProcessor()
+
+    let imr = MethodReference("WriteLine", (lookupNetStandardType "System.Void"), (lookupNetStandardType "System.Console"))
+    imr.Parameters.Add(ParameterDefinition(lookupNetStandardType "System.Int32"))
+    let methodRef = m.ImportReference imr
+
+    il.Append(il.Create(OpCodes.Ldc_I4, 42))
+    il.Append(il.Create(OpCodes.Call, methodRef))
     il.Append(il.Create(OpCodes.Ret))
 
     method.Body <- body
