@@ -5,6 +5,7 @@ nuget coverlet.collector
 nuget FsLexYacc
 nuget FsUnit.xUnit
 nuget Microsoft.NET.Test.Sdk
+nuget mono.cecil
 nuget ooui
 nuget xunit
 nuget xunit.runner.visualstudio

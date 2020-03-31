@@ -16,6 +16,7 @@ let main argv =
     
     // Required to run as a non-admin: https://github.com/praeclarum/Ooui/issues/152#issuecomment-419639448
     UI.Host <- "localhost"
+    
     UI.Publish ("/", button)
     UI.Present ("/")
 
