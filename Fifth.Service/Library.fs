@@ -50,13 +50,16 @@ let compileFile (ast: Ast.Token list) =
 
     let opCodeFor = function
         | Add -> il.Create(OpCodes.Add)
+        | Subtract -> il.Create(OpCodes.Sub)
+        | Divide -> il.Create(OpCodes.Div)
+        | Multiply -> il.Create(OpCodes.Mul)
         | Number num -> il.Create(OpCodes.Ldc_I4, num)
         | Output ->
             let imr = MethodReference("WriteLine", (lookupNetStandardType "System.Void"), (lookupNetStandardType "System.Console"))
             imr.Parameters.Add(ParameterDefinition(lookupNetStandardType "System.Int32"))
             let methodRef = m.ImportReference imr
             il.Create(OpCodes.Call, methodRef)
-        | e -> failwithf "Token %A not yet supported" e
+        // | e -> failwithf "Token %A not yet supported" e
 
     ast |> List.iter(fun t -> il.Append(opCodeFor t))
 

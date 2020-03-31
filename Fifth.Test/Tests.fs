@@ -15,4 +15,4 @@ let ``Simple Calculation`` () =
 
 [<Fact>]
 let ``Create DLL`` () =
-    compile "6 7 + ." |> ignore
+    compile "1 2 + 3 * 4 2 / + ." |> ignore
