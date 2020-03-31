@@ -1,0 +1,49 @@
+﻿%{
+open Ast
+%}
+
+// The start token becomes a parser function in the compiled code:
+%start start
+
+// Regular tokens
+
+%token <System.Int32> NUMBER
+
+%token ADD
+%token SUBTRACT
+%token MULTIPLY
+%token DIVIDE
+
+%token OUTPUT
+
+// Misc tokens
+%token EOF
+
+// This is the type of the data produced by a successful reduction of the 'start'
+// symbol:
+%type < Ast.Token list > start
+
+%%
+
+// These are the rules of the grammar along with the F# code of the 
+// actions executed as rules are reduced.  
+start: instructions EOF { $1 }
+
+word:
+	| ADD { Token.Add }
+	| SUBTRACT { Token.Subtract }
+	| MULTIPLY { Token.Multiply }
+	| DIVIDE { Token.Divide }
+	| OUTPUT { Token.Output }
+
+instructions:
+	| { [] }
+	| rev_instructions { List.rev $1 }
+
+rev_instructions:
+	| instruction { [ $1 ] }
+	| rev_instructions instruction { $2 :: $1 }
+
+instruction:
+	| word { $1 }
+	| NUMBER { Token.Number $1 }
