@@ -14,6 +14,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Fifth.Parser", "Fifth.Parse
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Fifth.Test", "Fifth.Test\Fifth.Test.fsproj", "{7EB3F170-3FA8-442A-ADBE-492D69BF494E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Fifth.Web", "Fifth.Web\Fifth.Web.fsproj", "{115FF541-57F9-4536-BFD3-848C4BB09073}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{7EB3F170-3FA8-442A-ADBE-492D69BF494E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EB3F170-3FA8-442A-ADBE-492D69BF494E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EB3F170-3FA8-442A-ADBE-492D69BF494E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{115FF541-57F9-4536-BFD3-848C4BB09073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{115FF541-57F9-4536-BFD3-848C4BB09073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{115FF541-57F9-4536-BFD3-848C4BB09073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{115FF541-57F9-4536-BFD3-848C4BB09073}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
