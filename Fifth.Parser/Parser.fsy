@@ -38,11 +38,7 @@ word:
 
 instructions:
 	| { [] }
-	| rev_instructions { List.rev $1 }
-
-rev_instructions:
-	| instruction { [ $1 ] }
-	| rev_instructions instruction { $2 :: $1 }
+	| instruction instructions { $1 :: $2 }
 
 instruction:
 	| word { $1 }
